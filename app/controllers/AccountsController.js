@@ -1,9 +1,15 @@
-class AccountsController {
+const User = require('../models/User');
 
-    // [GET] /accounts
-    accounts (req, res) {
-        res.render('index', { title: 'Hello' });
-    }
+class AccountsController {
+  // [GET] /accounts
+  accounts(req, res) {
+    User.getAll({}, function (err, users) {
+      if (!err) {
+        res.json(users);
+      }
+    });
+    // res.render('index', { title: 'Hello' });
+  }
 }
 
-module.exports = new AccountsController;
+module.exports = new AccountsController();
