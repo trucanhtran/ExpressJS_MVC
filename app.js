@@ -8,6 +8,10 @@ const logger = require('morgan');
 // const indexRouter = require('./routes/home');
 // const accountsRouter = require('./routes/accounts');
 const route = require('./routes');
+const db = require('./config/db');
+
+//conect to DB
+db.connect();
 
 const app = express();
 
