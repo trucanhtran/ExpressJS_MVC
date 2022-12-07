@@ -1,1 +1,1 @@
-run `npm run watch`
+run `npm run watch` and `npm start`
