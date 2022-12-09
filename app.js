@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+var expressLayouts = require('express-ejs-layouts');
 
 // const indexRouter = require('./routes/home');
 // const accountsRouter = require('./routes/accounts');
@@ -15,15 +16,17 @@ db.connect();
 
 const app = express();
 
-//public url
-app.use(express.static(path.join(__dirname, 'public')));
-
 //HTTP logger
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'app/views'));
+// app.set('view engine', 'jade');
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', 'layouts/default');
+// use res.render to load up an ejs view file
 
 app.use(logger('dev'));
 app.use(express.json());
