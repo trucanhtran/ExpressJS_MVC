@@ -4,12 +4,42 @@ const morgan = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-var expressLayouts = require('express-ejs-layouts');
+const expressLayouts = require('express-ejs-layouts');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 // const indexRouter = require('./routes/home');
 // const accountsRouter = require('./routes/accounts');
 const route = require('./routes');
 const db = require('./config/db');
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'LogRocket Express API with Swagger',
+      version: '0.1.0',
+      description: 'This is a simple CRUD API application made with Express and documented with Swagger',
+      license: {
+        name: 'MIT',
+        url: 'https://spdx.org/licenses/MIT.html',
+      },
+      contact: {
+        name: 'LogRocket',
+        url: 'https://logrocket.com',
+        email: 'info@email.com',
+      },
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000/accounts',
+      },
+    ],
+  },
+  apis: ['./routes/accounts.js'],
+};
+
+const specs = swaggerJsdoc(options);
 
 //conect to DB
 db.connect();
@@ -33,6 +63,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
 
 //Routes init
 // app.use('/', indexRouter);
